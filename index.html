@@ -21,7 +21,10 @@
         html,
         body {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
 
         canvas {
@@ -130,68 +133,69 @@
             <div class="spinner"></div>
         </div>
     </div>
-    <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
+    <script src="https://Relayer.nishithp2004.repl.co?url=https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js">
+    </script>
     <script>
-        var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
+        var db = indexedDB.open("dummy_indexdb",
+                1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
-        const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/build.loader.js";
-        const config = {
-            dataUrl: buildUrl + "/build.data.unityweb",
-            frameworkUrl: buildUrl + "/build.framework.js.unityweb",
-            codeUrl: buildUrl + "/build.wasm.unityweb",
-        streamingAssetsUrl: "StreamingAssets",
-            companyName: "Noogle",
-            productName: "AR Business Card",
-            productVersion: "0.1",
-        };
+                const buildUrl = "Build";
+                const loaderUrl = buildUrl + "/build.loader.js";
+                const config = {
+                    dataUrl: buildUrl + "/build.data.unityweb",
+                    frameworkUrl: buildUrl + "/build.framework.js.unityweb",
+                    codeUrl: buildUrl + "/build.wasm.unityweb",
+                    streamingAssetsUrl: "StreamingAssets",
+                    companyName: "Noogle",
+                    productName: "AR Business Card",
+                    productVersion: "0.1",
+                };
 
-        const container = document.querySelector("#unity-container");
-        const canvas = document.querySelector("#unity-canvas");
-        const loadingCover = document.querySelector("#loading-cover");
-        const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
-        const progressBarFull = document.querySelector("#unity-progress-bar-full");
-        const spinner = document.querySelector('.spinner');
+                const container = document.querySelector("#unity-container");
+                const canvas = document.querySelector("#unity-canvas");
+                const loadingCover = document.querySelector("#loading-cover");
+                const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+                const progressBarFull = document.querySelector("#unity-progress-bar-full");
+                const spinner = document.querySelector('.spinner');
 
-        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-            container.className = "unity-mobile";
-            //config.matchWebGLToCanvasSize = false;    
-            //set devicePixelRatio=1; to avoid draining fillrate performance on mobile and override low DPI mode
-            config.devicePixelRatio = window.devicePixelRatio;
-        }
-        loadingCover.style.display = "";
+                if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                    container.className = "unity-mobile";
+                    //config.matchWebGLToCanvasSize = false;    
+                    //set devicePixelRatio=1; to avoid draining fillrate performance on mobile and override low DPI mode
+                    config.devicePixelRatio = window.devicePixelRatio;
+                }
+                loadingCover.style.display = "";
 
-        window.zappar = ZCV.initialize();
+                window.zappar = ZCV.initialize();
 
-        const script = document.createElement("script");
-        script.src = loaderUrl;
-        //script.onload = () => { CreateUnityLoader();   };
-        document.body.appendChild(script);
+                const script = document.createElement("script");
+                script.src = loaderUrl;
+                //script.onload = () => { CreateUnityLoader();   };
+                document.body.appendChild(script);
 
-        window.zappar.permission_request_ui_promise().then(WaitForZCVLoad);
+                window.zappar.permission_request_ui_promise().then(WaitForZCVLoad);
 
-        function WaitForZCVLoad() {
-            if (zappar.loaded()) {
-                //loadingCover.style.display = "none"; 
-                CreateUnityLoader();
-                return;
-            }
-            setTimeout(WaitForZCVLoad, 500);
-        }
+                function WaitForZCVLoad() {
+                    if (zappar.loaded()) {
+                        //loadingCover.style.display = "none"; 
+                        CreateUnityLoader();
+                        return;
+                    }
+                    setTimeout(WaitForZCVLoad, 500);
+                }
 
-        function CreateUnityLoader() {
-            createUnityInstance(canvas, config, (progress) => {
-                spinner.style.display = "none";
-                progressBarEmpty.style.display = "";
-                progressBarFull.style.width = `${100 * progress}%`;
-            }).then((unityInstance) => {
-                loadingCover.style.display = "none";
-                //WaitForZCVLoad();
-            }).catch((message) => {
-                alert(message);
-            });
-        }
-
+                function CreateUnityLoader() {
+                    createUnityInstance(canvas, config, (progress) => {
+                        spinner.style.display = "none";
+                        progressBarEmpty.style.display = "";
+                        progressBarFull.style.width = `${100 * progress}%`;
+                    }).then((unityInstance) => {
+                        loadingCover.style.display = "none";
+                        //WaitForZCVLoad();
+                    }).catch((message) => {
+                        alert(message);
+                    });
+                }
     </script>
 </body>
 
